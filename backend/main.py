@@ -27,7 +27,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -220,3 +223,29 @@ def logout(current_user = Depends(get_current_user)):
     return{
         "message": "Logout successful"
     }
+
+@app.get("/admin/job-status")
+def get_job_status(current_user = Depends(get_current_user)):
+    db = Sessionlocal()
+
+    try:
+        job_runs = (
+            db.query(models.JobRun)
+            .order_by(models.JobRun.started_at.desc())
+            .limit(10)
+            .all()
+        )
+
+        return[
+            {
+                "id": job.id,
+                "started_at": job.started_at,
+                "finished_at": job.finished_at,
+                "status": job.status,
+                "message": job.message
+            }
+            for job in job_runs
+        ]
+
+    finally:
+        db.close()

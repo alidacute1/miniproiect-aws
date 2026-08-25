@@ -3,9 +3,42 @@ import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const [jobs, setJobs] = useState([]);
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+
+  const getJobs = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/admin/job-status",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setJobs(data);
+      } else {
+        setMessage("Nu s-au putut încărca rulările job-ului.");
+      }
+    } catch (error) {
+      setMessage("Nu se poate realiza conexiunea cu backend-ul.");
+    }
+  };
+
 
   useEffect(() => {
     const getUser = async () => {
@@ -28,6 +61,7 @@ function Profile() {
 
         if (response.ok) {
           setUser(data);
+          getJobs();
         } else {
           localStorage.removeItem("token");
           navigate("/login");
@@ -78,6 +112,46 @@ function Profile() {
             <div className="profile-row">
               <span>Created at</span>
               <span>{user.created_at}</span>
+            </div>
+
+             <div className="job-section">
+              <div className="job-header">
+                <h2>Job Status</h2>
+
+                <button
+                  className="refresh-button"
+                  onClick={getJobs}
+                >
+                  Refresh
+                </button>
+              </div>
+
+              {jobs.length === 0 ? (
+                <p className="subtitle">
+                  Nu există rulări disponibile.
+                </p>
+              ) : (
+                <div className="job-list">
+                  {jobs.slice(0, 5).map((job) => (
+                    <div className="job-item" key={job.id}>
+                      <div>
+                        <strong>Job #{job.id}</strong>
+                        <p>{job.message}</p>
+                      </div>
+
+                      <div className="job-info">
+                        <span className={`job-status ${job.status}`}>
+                          {job.status}
+                        </span>
+
+                        <span>
+                          {new Date(`${job.started_at}Z`).toLocaleString("ro-RO")}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <button className="logout-button" onClick={handleLogout}>

@@ -92,3 +92,75 @@ Pornirea frontend-ului
 
 Backend-ul si frontend-ul trebuie sa ruleze simultan, in terminale separate.
 
+
+
+\-----------------------------------------------------
+
+ACTUALIZARE:
+
+
+
+Variabile de mediu
+
+
+
+In radacina proiectului trebuie creat un fisier ".env" care contine variabilele de mediu necesare pentru conectarea la baza de date si pentru autentificarea JWT.
+
+
+
+Fisierul ".env" trebuie sa contina:
+
+\-----------------------------------------------------------------------------
+
+DATABASE\_URL=postgresql://USER:PASSWORD@db:5432/DATABASE\_NAME
+
+SECRET\_KEY=YOUR\_SECRET\_KEY
+
+\-----------------------------------------------------------------------------
+
+Valorile reale pentru utilizator, parola, baza de date si cheia secreta nu trebuie publicate in repository.
+
+
+
+\-----------------------
+
+Rulare cu Docker Compose
+
+
+
+\-Porniti Docker Desktop
+
+
+
+\-Deschideti un terminal (cmd) in radacina proiectului
+
+
+
+\-Pornim toate servicile(frontend, backend, db, job) cu: "docker compose up"
+
+
+
+\-Sau direct din Docker Desktop cu start
+
+
+
+\-----------------------
+
+Verificare job
+
+
+
+\-Job-ul ruleaza automat la un interval de 5 min si salveaza rezultatul in baza de date
+
+
+
+\-Rularile job-ului pot fi verificate prin endpoint-ul: GET 'http://localhost:8000/admin/job-status'
+
+
+
+\-Enpoint-ul necesita autentificarea cu un token JWT valid
+
+
+
+\-Rezultatele job-ului pot fi vizibile si in intefata aplicatiei, dupa autentificare, in sectiunea "Job status" din pagina de profil
+

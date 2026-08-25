@@ -12,3 +12,12 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     created_at = Column(DateTime, server_default = func.now())
     date_of_birth = Column(Date, nullable=True)
+
+class JobRun(Base):
+    __tablename__ = "job_runs"
+
+    id = Column(Integer, primary_key=True)
+    started_at = Column(DateTime, nullable=False)
+    finished_at = Column(DateTime, nullable=True)
+    status = Column(String, nullable=True)
+    message = Column(String, nullable=True)
