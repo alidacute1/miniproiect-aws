@@ -1,166 +1,45 @@
-Mini Project – FastAPI + React + PostgreSQL
 
+Variabile de mediu:
 
+In radacina proiectului trebuie creat un fisier ".env" care sa contina:
 
-Dependențe necesare pt rularea proiectului:
+-----------------------------------------------------------------------------
+DATABASE_URL=postgresql://USER:PASSWORD@db:5432/DATABASE_NAME
+SECRET_KEY=YOUR_SECRET_KEY
+VITE_API_URL=http://YOUR_PUBLIC_IP:8000
+FRONTEND_ORIGIN=http://YOUR_PUBLIC_IP:3000
+-----------------------------------------------------------------------------
 
-\- Python 3.13.15: necesar pt rularea backend-ului realizat cu FastAPI
+"YOUR_PUBLIC_IP" trebuie inlocuit cu IP-ul public sau Elastic IP-ul instantei EC2.
 
-\- Node.js LTS: necesar pt instalarea dependentelor frontend-ului si pt rularea aplicatiei React/Vite
+Valorile reale si cheia secreta nu trebuie publicate in repository.
 
-\- PostgreSQL: sistemul de gestiune a bazei de date utilizat pt stocarea datelor aplicatiei, inclusiv a info despre utilizatori
+-----------------------
+Rulare pe AWS
 
+-Intrati in folderul proiectului:
+  cmd: 'cd miniproiect-aws'
 
+-Porniti toate serviciile (frontend, backend, db, job) cu:
+  cmd: 'docker compose up -d --build'
 
-Variabile de mediu
+-Verificati serviciile cu:
+  cmd: 'docker compose ps'
 
+-Frontend-ul este disponibil la:
+  'http://YOUR_PUBLIC_IP:3000'
 
+-Backend-ul este disponibil la:
+  'http://YOUR_PUBLIC_IP:8000'
 
-In folderul "backend" trebuie creat un fisier ".env" care trebuie sa contina:
+-----------------------
+Verificare job:
 
-\-----------------------------------------------------------------------------
+-Job-ul ruleaza automat la un interval de 5 minute si salveaza rezultatele in baza de date
 
-DATABASE\_URL=postgresql://USER:PASSWORD@localhost:5432/DATABASE\_NAME
+-Rularile pot fi verificate prin:
+  GET 'http://YOUR_PUBLIC_IP:8000/admin/job-status'
 
-SECRET\_KEY=YOUR\_SECRET\_KEY
+-Endpoint-ul necesita autentificare cu un token JWT valid
 
-\-----------------------------------------------------------------------------
-
-
-
-Valorile reale pentru utilizator, parola, baza de date si cheia secreta nu trebuie publicate in repository.
-
-
-
-\------------------------
-
-Pornirea backend-ului
-
-
-
-\-Deschideti un terminal si intrati in folderul "backend":
-
-&#x20; cmd : 'cd backend'
-
-
-
-\-Activati mediul virtual:
-
-&#x20; cmd: 'venv\\Scripts\\activate'
-
-
-
-\-Porniti backend-ul:
-
-&#x20; cmd: 'uvicorn main:app --reload'
-
-
-
-\-Backend-ul va rula la: 'http://localhost:8000'
-
-
-
-\-------------------------
-
-Pornirea frontend-ului
-
-
-
-\-Deschideti un al doilea terminal si intrati in folderul "frontend":
-
-&#x20; cmd: 'cd frontend'
-
-
-
-\-Instalati dependentele, daca este prima rulare:
-
-&#x20; cmd: 'npm install'
-
-
-
-\-Porniti frontend-ul:
-
-&#x20; cmd: 'npm run dev'
-
-
-
-\-Frontend-ul va rula la: 'http://localhost:5173'
-
-\------------------------
-
-
-
-Backend-ul si frontend-ul trebuie sa ruleze simultan, in terminale separate.
-
-
-
-\-----------------------------------------------------
-
-ACTUALIZARE:
-
-
-
-Variabile de mediu
-
-
-
-In radacina proiectului trebuie creat un fisier ".env" care contine variabilele de mediu necesare pentru conectarea la baza de date si pentru autentificarea JWT.
-
-
-
-Fisierul ".env" trebuie sa contina:
-
-\-----------------------------------------------------------------------------
-
-DATABASE\_URL=postgresql://USER:PASSWORD@db:5432/DATABASE\_NAME
-
-SECRET\_KEY=YOUR\_SECRET\_KEY
-
-\-----------------------------------------------------------------------------
-
-Valorile reale pentru utilizator, parola, baza de date si cheia secreta nu trebuie publicate in repository.
-
-
-
-\-----------------------
-
-Rulare cu Docker Compose
-
-
-
-\-Porniti Docker Desktop
-
-
-
-\-Deschideti un terminal (cmd) in radacina proiectului
-
-
-
-\-Pornim toate servicile(frontend, backend, db, job) cu: "docker compose up"
-
-
-
-\-Sau direct din Docker Desktop cu start
-
-
-
-\-----------------------
-
-Verificare job
-
-
-
-\-Job-ul ruleaza automat la un interval de 5 min si salveaza rezultatul in baza de date
-
-
-
-\-Rularile job-ului pot fi verificate prin endpoint-ul: GET 'http://localhost:8000/admin/job-status'
-
-
-
-\-Enpoint-ul necesita autentificarea cu un token JWT valid
-
-
-
-\-Rezultatele job-ului pot fi vizibile si in intefata aplicatiei, dupa autentificare, in sectiunea "Job status" din pagina de profil
-
+-Rezultatele pot fi vizualizate si in interfata aplicatiei, in sectiunea "Job Status" din pagina de profil

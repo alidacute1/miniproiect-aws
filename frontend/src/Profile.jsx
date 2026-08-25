@@ -18,7 +18,7 @@ function Profile() {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/admin/job-status",
+        `${import.meta.env.VITE_API_URL}/admin/job-status`,
         {
           method: "GET",
           headers: {
@@ -50,7 +50,7 @@ function Profile() {
       }
 
       try {
-        const response = await fetch("http://localhost:8000/me", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

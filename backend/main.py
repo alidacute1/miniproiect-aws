@@ -10,6 +10,7 @@ import os
 
 from database import engine, Base, Sessionlocal
 import models
+FRONTEND_ORIGIN= os.getenv("FRONTEND_ORIGIN")
 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,7 +30,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        FRONTEND_ORIGIN,
     ],
     allow_credentials=True,
     allow_methods=["*"],
